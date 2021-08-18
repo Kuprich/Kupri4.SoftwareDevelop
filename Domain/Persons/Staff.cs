@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Kupri4.SoftwareDevelop.Domain.Persons
 {
-    public class Staff : Person
+    public abstract class Staff : Person
     {
         decimal MonthSalary { get; }
-        public Staff(string name, decimal monthSalary) : base(name)
+        public Staff(string firstName, string lastName, decimal monthSalary, List<TimeRecord> timeRecords) 
+            : base(firstName, lastName, timeRecords)
         {
             MonthSalary = monthSalary;
         }

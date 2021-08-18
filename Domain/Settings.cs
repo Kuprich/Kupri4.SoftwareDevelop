@@ -8,6 +8,5 @@ namespace Kupri4.SoftwareDevelop.Domain
 {
     public static class Settings
     {
-        const int WorkHourseInMonths = 160;
     }
 }

@@ -8,9 +8,7 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
 {
     public class Freelancer : Person
     {
-        public Freelancer(string name) : base(name)
-        {
-
-        }
+        public Freelancer(string firstName, string lastName, List<TimeRecord> timeRecords) 
+            : base(firstName, lastName, timeRecords) { }
     }
 }

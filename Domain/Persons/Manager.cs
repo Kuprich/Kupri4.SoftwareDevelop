@@ -8,8 +8,10 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
 {
     public class Manager : Staff
     {
-        public Manager(string name, decimal monthSalary) : base(name, monthSalary)
+        public Manager(string firstName, string lastName, List<TimeRecord> timeRecords) 
+            : base(firstName, lastName, 200_000, timeRecords)
         {
+
         }
     }
 }
