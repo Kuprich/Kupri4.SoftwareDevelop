@@ -8,9 +8,12 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
 {
     public class Employee : Staff
     {
-        public Employee(string firstName, string lastName, List<TimeRecord> timeRecords) 
-            : base(firstName, lastName, 120_000M, timeRecords)
+        public Employee(string firstName, string lastName) 
+            : base(firstName, lastName, Settings.Employee.Status, Settings.Employee.MonthSalary) { }
+
+        public override decimal GetSalaryOnPeriod(DateTime startDate, DateTime endDate)
         {
+            throw new NotImplementedException();
         }
     }
 }

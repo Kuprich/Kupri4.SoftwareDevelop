@@ -10,8 +10,8 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
     public abstract class Staff : Person
     {
         decimal MonthSalary { get; }
-        public Staff(string firstName, string lastName, decimal monthSalary, List<TimeRecord> timeRecords) 
-            : base(firstName, lastName, timeRecords)
+        public Staff(string firstName, string lastName, string status, decimal monthSalary) 
+            : base(firstName, lastName, status)
         {
             MonthSalary = monthSalary;
         }

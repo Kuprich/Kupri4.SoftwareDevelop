@@ -6,4 +6,10 @@
     <RootNamespace>Kupri4.SoftwareDevelop.Domain</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
 </Project>

@@ -7,12 +7,18 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
     {
         public List<TimeRecord> TimeRecords { get; } = new();
         public string FirstName { get; }
-        public string LastName { get; set; }
-        protected Person(string firstName, string lastName, List<TimeRecord> timeRecords)
+        public string LastName { get; }
+        public string Status { get; }
+
+        protected Person(string firstName, string lastName, string status)
         {
-            TimeRecords = timeRecords;
             FirstName = firstName;
             LastName = lastName;
+            Status = status;
         }
+        protected Person() { }
+
+        public abstract decimal GetSalaryOnPeriod(DateTime startDate, DateTime endDate);
+
     }
 }

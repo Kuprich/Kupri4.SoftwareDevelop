@@ -8,7 +8,12 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
 {
     public class Freelancer : Person
     {
-        public Freelancer(string firstName, string lastName, List<TimeRecord> timeRecords) 
-            : base(firstName, lastName, timeRecords) { }
+        public Freelancer(string firstName, string lastName) 
+            : base(firstName, lastName, Settings.Employee.Status) { }
+
+        public override decimal GetSalaryOnPeriod(DateTime startDate, DateTime endDate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
