@@ -7,7 +7,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 {
     class Program
     {
-        HomeController homeController;
+        HomeController homeController = new ();
 
         static void Main(string[] args)
         {
@@ -21,7 +21,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             // homeController = new HomeController();
             //if (!Greatings()) return;
 
-            Person m = new Manager("", "");
+            Person m = new Employee("", "");
             m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-3), 8, ""));
             m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-2), 9, ""));
             m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-1), 7, ""));

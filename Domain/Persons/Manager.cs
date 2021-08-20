@@ -13,17 +13,13 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
 
         public override decimal GetPayOnPeriod(DateTime startDate, DateTime endDate)
         {
-            int[] hoursArray = TimeRecords
-            .Where(r => r.Date >= startDate && r.Date <= endDate)
-            .Select(r => r.Hours)
-            .ToArray();
 
             decimal payPerHour = Settings.Manager.MonthSalary / Settings.WorkingHoursPerMonth;
             decimal bonusPerDay = Settings.WorkingHoursPerDay * Settings.Manager.MonthBonus / Settings.WorkingHoursPerMonth;
 
             decimal totalPay = 0;
 
-            foreach (int hours in hoursArray)
+            foreach (int hours in GetHoursOnPeriod(startDate, endDate))
             {
                 if (hours > Settings.WorkingHoursPerDay)
                     totalPay += payPerHour * Settings.WorkingHoursPerDay + bonusPerDay;

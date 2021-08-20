@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kupri4.SoftwareDevelop.Domain.Persons
 {
@@ -19,6 +20,14 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         protected Person() { }
 
         public abstract decimal GetPayOnPeriod(DateTime startDate, DateTime endDate);
+
+        public int[] GetHoursOnPeriod(DateTime startDate, DateTime endDate)
+        {
+            return TimeRecords
+            .Where(r => r.Date >= startDate && r.Date <= endDate)
+            .Select(r => r.Hours)
+            .ToArray();
+        }
 
     }
 }
