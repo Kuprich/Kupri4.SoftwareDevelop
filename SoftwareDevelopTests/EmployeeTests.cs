@@ -20,7 +20,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopTests
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-2), 9, ""));
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-1), 7, ""));
 
-            Assert.AreEqual(m.GetPayOnPeriod(DateTime.Parse("01.01.2020"), DateTime.Now), 18750);
+            Assert.AreEqual(m.GetPayOnPeriod(DateTime.Now.AddDays(-4), DateTime.Now), 18_750);
         }
     }
 }

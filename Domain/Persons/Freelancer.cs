@@ -11,9 +11,7 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         public Freelancer(string firstName, string lastName) 
             : base(firstName, lastName, Settings.Employee.Status) { }
 
-        public override decimal GetPayOnPeriod(DateTime startDate, DateTime endDate)
-        {
-            throw new NotImplementedException();
-        }
+        public override decimal GetPayOnPeriod(DateTime startDate, DateTime endDate) => 
+            Settings.Freelancer.PayPerHour * GetHoursOnPeriod(startDate, endDate).Sum();
     }
 }

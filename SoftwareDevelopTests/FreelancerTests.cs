@@ -1,11 +1,11 @@
-using Kupri4.SoftwareDevelop.Domain;
+﻿using Kupri4.SoftwareDevelop.Domain;
 using Kupri4.SoftwareDevelop.Domain.Persons;
 using NUnit.Framework;
 using System;
 
 namespace Kupri4.SoftwareDevelop.SoftwareDevelopTests
 {
-    public class ManagerTests
+    public class FreelancerTests
     {
         [SetUp]
         public void Setup()
@@ -15,12 +15,12 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopTests
         [Test]
         public void GetPayOnPeriodTest()
         {
-            Person m = new Manager("", "");
+            Person m = new Freelancer("", "");
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-3), 8, ""));
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-2), 9, ""));
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-1), 7, ""));
 
-            Assert.AreEqual(m.GetPayOnPeriod(DateTime.Now.AddDays(-4), DateTime.Now), 29_750);
+            Assert.AreEqual(m.GetPayOnPeriod(DateTime.Now.AddDays(-4), DateTime.Now), 24_000);
         }
     }
 }

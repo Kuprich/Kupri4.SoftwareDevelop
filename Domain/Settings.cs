@@ -24,6 +24,7 @@ namespace Kupri4.SoftwareDevelop.Domain
         public static class Freelancer
         {
             public const string Status = "Фрилансер";
+            public const decimal PayPerHour = 1_000M;
         }
     }
 }
