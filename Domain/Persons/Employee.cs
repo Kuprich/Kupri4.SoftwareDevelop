@@ -11,7 +11,7 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         public Employee(string firstName, string lastName) 
             : base(firstName, lastName, Settings.Employee.Status, Settings.Employee.MonthSalary) { }
 
-        public override decimal GetSalaryOnPeriod(DateTime startDate, DateTime endDate)
+        public override decimal GetPayOnPeriod(DateTime startDate, DateTime endDate)
         {
             throw new NotImplementedException();
         }

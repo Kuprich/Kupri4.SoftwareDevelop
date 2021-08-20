@@ -18,7 +18,7 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         }
         protected Person() { }
 
-        public abstract decimal GetSalaryOnPeriod(DateTime startDate, DateTime endDate);
+        public abstract decimal GetPayOnPeriod(DateTime startDate, DateTime endDate);
 
     }
 }

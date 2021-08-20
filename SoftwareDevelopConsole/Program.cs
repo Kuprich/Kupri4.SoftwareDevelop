@@ -18,12 +18,20 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
         private void StartApp()
         {
-            homeController = new HomeController();
-            if (!Greatings()) return;
+            // homeController = new HomeController();
+            //if (!Greatings()) return;
 
-            ShowActionsAndSelect();
+            Person m = new Manager("", "");
+            m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-3), 8, ""));
+            m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-2), 9, ""));
+            m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-1), 7, ""));
+
+            m.GetPayOnPeriod(DateTime.Parse("01.01.2020"), DateTime.Now);
+
+
+            //ShowActionsAndSelect();
             //SelectAction();
-            
+
         }
 
         private void ShowActionsAndSelect()

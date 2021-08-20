@@ -11,23 +11,27 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         public Manager(string firstName, string lastName) 
             : base(firstName, lastName, Settings.Manager.Status, Settings.Manager.MonthSalary) { }
 
-        public override decimal GetSalaryOnPeriod(DateTime startDate, DateTime endDate)
+        public override decimal GetPayOnPeriod(DateTime startDate, DateTime endDate)
         {
-            byte[] hoursArray = TimeRecords
+            int[] hoursArray = TimeRecords
             .Where(r => r.Date >= startDate && r.Date <= endDate)
             .Select(r => r.Hours)
             .ToArray();
 
-            decimal salaryPerHour = Settings.WorkingHoursPerDay / Settings.WorkingHoursPerMonth * Settings.Manager.MonthSalary;
-            decimal bonusPerHour = Settings.WorkingHoursPerDay / Settings.WorkingHoursPerMonth * Settings.Manager.MonthBonus;
+            decimal payPerHour = Settings.Manager.MonthSalary / Settings.WorkingHoursPerMonth;
+            decimal bonusPerDay = Settings.WorkingHoursPerDay * Settings.Manager.MonthBonus / Settings.WorkingHoursPerMonth;
 
-            decimal totalSalary = 0;
-            foreach (byte hours in hoursArray)
+            decimal totalPay = 0;
+
+            foreach (int hours in hoursArray)
             {
                 if (hours > Settings.WorkingHoursPerDay)
-                    totalSalary += Settings.WorkingHoursPerDay * salaryPerHour + (hours - Settings.WorkingHoursPerDay) * bonusPerHour;
+                    totalPay += payPerHour * Settings.WorkingHoursPerDay + bonusPerDay;
+                else
+                    totalPay += hours * payPerHour;
             }
-            return totalSalary;
+
+            return totalPay;
         }
     }
 }

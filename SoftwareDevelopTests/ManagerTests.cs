@@ -13,14 +13,14 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopTests
         }
 
         [Test]
-        public void GetSalaryOnPeriodTest()
+        public void GetPayOnPeriodTest()
         {
-            Manager m = new("", "");
+            Person m = new Manager("", "");
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-3), 8, ""));
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-2), 9, ""));
             m.TimeRecords.Add(new TimeRecord(DateTime.Now.AddDays(-1), 7, ""));
 
-            Assert.AreEqual(m.GetSalaryOnPeriod(DateTime.Parse("01.01.2020"), DateTime.Now), 1000);
+            Assert.AreEqual(m.GetPayOnPeriod(DateTime.Parse("01.01.2020"), DateTime.Now), 29750);
         }
     }
 }

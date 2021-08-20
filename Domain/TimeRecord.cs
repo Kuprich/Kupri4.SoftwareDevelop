@@ -17,7 +17,7 @@ namespace Kupri4.SoftwareDevelop.Domain
         }
         public TimeRecord() { }
         public DateTime Date { get; }
-        public byte Hours { get; set; }
+        public int Hours { get; set; }
         public string Mesasge { get; set; }
 
     }
