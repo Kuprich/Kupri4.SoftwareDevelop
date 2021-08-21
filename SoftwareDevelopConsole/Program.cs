@@ -1,5 +1,6 @@
 ﻿using Kupri4.SoftwareDevelop.Domain.Persons;
 using Kupri4.SoftwareDevelop.Persistence;
+using Kupri4.SoftwareDevelop.Persistence.ReportTemplates;
 using System;
 using System.Linq;
 
@@ -18,19 +19,9 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
         private void StartApp()
         {
-            // homeController = new HomeController();
-            //if (!Greatings()) return;
+            if (!Greatings()) return;
 
-            Person m = new Employee("", "");
-            m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-3), 8, ""));
-            m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-2), 9, ""));
-            m.TimeRecords.Add(new Domain.TimeRecord(DateTime.Now.AddDays(-1), 7, ""));
-
-            m.GetPayOnPeriod(DateTime.Parse("01.01.2020"), DateTime.Now);
-
-
-            //ShowActionsAndSelect();
-            //SelectAction();
+            ShowActionsAndSelect();
 
         }
 
@@ -42,6 +33,8 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             byte hours;
             string message;
             DateTime date;
+            DateTime startDate;
+            DateTime endDate;
             Console.Write("Выберите желаемое действие ");
             switch (homeController.CurrentPerson)
             {
@@ -90,18 +83,8 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         #region case "2"
                         case "2":
                             Console.WriteLine($"Выберите сотрудника из списка, которому необходимо добавить время: [1-{homeController.GetPeopleNames().Length}]");
-                            for (int i = 0; i < homeController.GetPeopleNames().Length; i++)
-                            {
-                                Console.WriteLine($"[{i + 1}] - {homeController.GetPeopleNames()[i]}");
-                            }
 
-                            num = int.Parse(Console.ReadLine().Trim());
-
-                            if (num < 1 || num > homeController.GetPeopleNames().Length)
-                            {
-                                Console.WriteLine("Ошибка ввода!!");
-                                break;
-                            }
+                            if (!SelectPerson()) break;
 
                             Console.Write("Введите дату в формате dd.mm.yyyy: ");
                             date = DateTime.Parse(Console.ReadLine().Trim());
@@ -111,11 +94,37 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                             message = Console.ReadLine().Trim();
 
                             homeController.AddTime(homeController.GetPeopleNames()[num - 1], date, hours, message);
+                            break;
+                        #endregion
+                        #region case "3"
+                        case "3":
+                            Console.Write("Введите дату начала периода в формате dd.mm.yyyy: ");
+                            startDate = DateTime.Parse(Console.ReadLine().Trim());
+                            Console.Write("Введите дату окончания периода в формате dd.mm.yyyy: ");
+                            endDate = DateTime.Parse(Console.ReadLine().Trim());
+                            if (startDate > endDate)
+                            {
+                                Console.WriteLine("Дата начала не может быть раньше, чем дата окончания");
+                                break;
+                            }
+                            GeneralReportData[] grData = homeController.GetReportForAllPersons(startDate, endDate);
+                            Console.WriteLine($"\nОтчет за период с {startDate.Date} по {endDate.Date}");
+                            int totalHours = 0;
+                            decimal totalPay = 0;
+                            foreach (GeneralReportData item in grData)
+                            {
+                                Console.WriteLine($"{item.Name} отработал {item.Hours} часов и заработал {item.Pay} рублей");
+                                totalHours += item.Hours;
+                                totalPay += item.Pay;
+                            }
+                            Console.WriteLine($"Всего часов отработано за период: {totalHours}, Сумма к выплате: {totalPay}");
+                            //Console.WriteLine("Желаете просмотреть еще один отчет? Нажмите \"(Д)а\" для продожения, \n \"(Н)ет\"для выхода на главный экран");
+
+                            Console.WriteLine();
                             break; 
                         #endregion
-                        case "3":
-                            break;
                         case "4":
+
                             break;
                         case "5":
                             break;
@@ -132,6 +141,21 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                     Console.WriteLine("[2]. Отчет о своём времени работы");
                     Console.WriteLine("[3]. Выход:");
                     break;
+            }
+
+            bool SelectPerson()
+            {
+                for (int i = 0; i < homeController.GetPeopleNames().Length; i++)
+                    Console.WriteLine($"[{i + 1}] - {homeController.GetPeopleNames()[i]}");
+
+                num = int.Parse(Console.ReadLine().Trim());
+
+                if (num < 1 || num > homeController.GetPeopleNames().Length)
+                {
+                    Console.WriteLine("Ошибка ввода!!");
+                    return false;
+                }
+                return true;
             }
 
         }
@@ -158,5 +182,6 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             
             return true;
         }
+
     }
 }

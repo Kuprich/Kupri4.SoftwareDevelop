@@ -1,5 +1,6 @@
 ﻿using Kupri4.SoftwareDevelop.Domain;
 using Kupri4.SoftwareDevelop.Domain.Persons;
+using Kupri4.SoftwareDevelop.Persistence.ReportTemplates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,5 +53,14 @@ namespace Kupri4.SoftwareDevelop.Persistence
             people.First(p => p.FirstName.Equals(personName))
                 .TimeRecords.Add(new TimeRecord(date, hours, mesage));
         }
+
+        public GeneralReportData[] GetReportForAllPersons(DateTime startDate, DateTime endDate) => people
+            .Select(p => new GeneralReportData(p.FirstName, p.GetHoursOnPeriod(startDate, endDate).Sum(), p.GetPayOnPeriod(startDate, endDate)))
+            .ToArray();
+        }
+        //public void GetReportForPerson(DateTime startDate, DateTime endDate)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
