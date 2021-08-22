@@ -2,6 +2,7 @@
 using Kupri4.SoftwareDevelop.Persistence;
 using Kupri4.SoftwareDevelop.Persistence.ReportTemplates;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
@@ -21,12 +22,13 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         {
             if (!Greatings()) return;
 
-            ShowActionsAndSelect();
+            while (ShowActionsAndSelect()) { }
 
         }
 
-        private void ShowActionsAndSelect()
+        private bool ShowActionsAndSelect()
         {
+            #region Variables
             int num;
             string firstName;
             string lastName;
@@ -35,9 +37,74 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             DateTime date;
             DateTime startDate;
             DateTime endDate;
-            Console.Write("Выберите желаемое действие ");
+            int totalHours;
+            decimal totalPay;
+            #endregion
+
+            #region Methods
+            bool IsSelectPerson()
+            {
+                Console.WriteLine($"\nВыберите сотрудника из списка: [1-{homeController.GetPeopleNames().Length}]");
+
+                for (int i = 0; i < homeController.GetPeopleNames().Length; i++)
+                    Console.WriteLine($"[{i + 1}] - {homeController.GetPeopleNames()[i]}");
+                Console.WriteLine();
+                num = int.Parse(Console.ReadLine().Trim());
+
+                if (num < 1 || num > homeController.GetPeopleNames().Length)
+                {
+                    PrintInputNumError();
+                    return false;
+                }
+                return true;
+            }
+            bool IsSelectPeriod()
+            {
+                Console.Write("\nВведите дату начала периода в формате dd.mm.yyyy: ");
+                startDate = DateTime.Parse(Console.ReadLine().Trim());
+                Console.Write("Введите дату окончания периода в формате dd.mm.yyyy: ");
+                endDate = DateTime.Parse(Console.ReadLine().Trim());
+                if (startDate > endDate)
+                {
+                    Console.WriteLine("Дата начала не может быть раньше, чем дата окончания");
+                    return false;
+                }
+                return true;
+            }
+            bool IsExit()
+            {
+                Console.WriteLine("Вы уверены, что хотите выйти?\nНажмите (Д)а для подтверждения, (Н)ет - для отмены");
+                return Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase);
+            }
+            void AddTime()
+            {
+                Console.Write("Введите дату в формате dd.mm.yyyy: ");
+                date = DateTime.Parse(Console.ReadLine().Trim());
+                Console.Write("Кол-во часов работы: ");
+                hours = byte.Parse(Console.ReadLine().Trim());
+                Console.Write("Текст сообщения: ");
+                message = Console.ReadLine().Trim();
+            }
+            void PrintPersonalReport(PersonalReportData prData)
+            {
+                Console.WriteLine($"\nОтчет по сотруднику {prData.Name} \nза период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}:");
+                foreach (var item in prData.TimeRecords)
+                    Console.WriteLine($"{item.Date.ToShortDateString()}, {item.Hours} часов, {item.Mesasge}");
+                Console.WriteLine($"Итого: {prData.TotalHours} часов, заработано: {prData.TotalPay} рублей");
+            }
+            void PrintInputNumError()
+            {
+                ConsoleColor tmpColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nОшибка ввода!");
+                Console.ForegroundColor = tmpColor;
+            } 
+            #endregion
+
+            Console.Write("\nВыберите желаемое действие ");
             switch (homeController.CurrentPerson)
             {
+                #region Manager Actions         
                 case Manager:
                     Console.WriteLine("[1-5]:");
                     Console.WriteLine("[1] - Добавить сотрудника");
@@ -57,7 +124,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                             num = int.Parse(Console.ReadLine().Trim());
                             if (num < 1 || num > 3)
                             {
-                                Console.WriteLine("Ошибка ввода!");
+                                PrintInputNumError();
                                 break;
                             }
 
@@ -82,38 +149,21 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         #endregion
                         #region case "2"
                         case "2":
-                            Console.WriteLine($"Выберите сотрудника из списка, которому необходимо добавить время: [1-{homeController.GetPeopleNames().Length}]");
-
-                            if (!SelectPerson()) break;
-
-                            Console.Write("Введите дату в формате dd.mm.yyyy: ");
-                            date = DateTime.Parse(Console.ReadLine().Trim());
-                            Console.Write("Кол-во часов работы: ");
-                            hours = byte.Parse(Console.ReadLine().Trim());
-                            Console.Write("Текст сообщения: ");
-                            message = Console.ReadLine().Trim();
-
+                            if (!IsSelectPerson()) break;
+                            AddTime();
                             homeController.AddTime(homeController.GetPeopleNames()[num - 1], date, hours, message);
                             break;
                         #endregion
                         #region case "3"
                         case "3":
-                            Console.Write("Введите дату начала периода в формате dd.mm.yyyy: ");
-                            startDate = DateTime.Parse(Console.ReadLine().Trim());
-                            Console.Write("Введите дату окончания периода в формате dd.mm.yyyy: ");
-                            endDate = DateTime.Parse(Console.ReadLine().Trim());
-                            if (startDate > endDate)
-                            {
-                                Console.WriteLine("Дата начала не может быть раньше, чем дата окончания");
-                                break;
-                            }
+                            if (!IsSelectPeriod()) break;
                             GeneralReportData[] grData = homeController.GetReportForAllPersons(startDate, endDate);
-                            Console.WriteLine($"\nОтчет за период с {startDate.Date} по {endDate.Date}");
-                            int totalHours = 0;
-                            decimal totalPay = 0;
+                            Console.WriteLine($"\nОтчет за период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}");
+                            totalHours = 0;
+                            totalPay = 0;
                             foreach (GeneralReportData item in grData)
                             {
-                                Console.WriteLine($"{item.Name} отработал {item.Hours} часов и заработал {item.Pay} рублей");
+                                Console.WriteLine($"{item.Name} отработал {item.Hours} часов и заработал {item.Pay,-2} рублей");
                                 totalHours += item.Hours;
                                 totalPay += item.Pay;
                             }
@@ -121,49 +171,71 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                             //Console.WriteLine("Желаете просмотреть еще один отчет? Нажмите \"(Д)а\" для продожения, \n \"(Н)ет\"для выхода на главный экран");
 
                             Console.WriteLine();
-                            break; 
+                            break;
                         #endregion
+                        #region case "4"
                         case "4":
-
+                            if (!IsSelectPerson()) break;
+                            if (!IsSelectPeriod()) break;
+                            PrintPersonalReport(homeController.GetReportForAnyPerson(homeController.GetPeopleNames()[num - 1], startDate, endDate));
                             break;
+                        #endregion
+                        #region case "5"
                         case "5":
+                            if (IsExit()) return false;
                             break;
+                        #endregion
+                        #region default:
                         default:
-                            Console.WriteLine("Ошибка ввода данных");
-                            break;
+                            PrintInputNumError();
+                            break; 
+                            #endregion
                     }
                     break;
+                #endregion
 
+                #region Employee & Freelancer Actions
                 case Employee:
                 case Freelancer:
                     Console.WriteLine("[1-3]:");
                     Console.WriteLine("[1]. Добавить себе время");
                     Console.WriteLine("[2]. Отчет о своём времени работы");
                     Console.WriteLine("[3]. Выход:");
-                    break;
+                    switch (Console.ReadLine().Trim())
+                    {
+                        #region case "1"
+                        case "1":
+                            AddTime();
+                            homeController.AddTime(homeController.CurrentPerson.FirstName, date, hours, message);
+                            break;
+                        #endregion
+                        #region case "2"
+                        case "2":
+                            if (!IsSelectPeriod()) break;
+                            PrintPersonalReport(homeController.GetReportForAnyPerson(homeController.CurrentPerson.FirstName, startDate, endDate));
+                            break;
+                        #endregion
+                        #region case "3"
+                        case "3":
+                            if (IsExit()) return false;
+                            break; 
+                        #endregion
+                        #region default:
+                        default:
+                            PrintInputNumError();
+                            break; 
+                            #endregion
+                    }
+                    break; 
+                    #endregion
             }
-
-            bool SelectPerson()
-            {
-                for (int i = 0; i < homeController.GetPeopleNames().Length; i++)
-                    Console.WriteLine($"[{i + 1}] - {homeController.GetPeopleNames()[i]}");
-
-                num = int.Parse(Console.ReadLine().Trim());
-
-                if (num < 1 || num > homeController.GetPeopleNames().Length)
-                {
-                    Console.WriteLine("Ошибка ввода!!");
-                    return false;
-                }
-                return true;
-            }
-
+            return true;
         }
 
         /// <summary>
         ///  Первоначальный экран приветствия.
         /// </summary>
-        /// <returns>true - если всё пользователь найден</returns>
+        /// <returns>true - если пользователь найден</returns>
         bool Greatings()
         {
             Console.Write("Добро пожаловать в программу по учету зарплаты.\nВведите имя пользователя: ");
@@ -175,11 +247,19 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 return false;
             }
 
-            if (homeController.GetPeopleNames().Contains(userName))
-                homeController.SetCurrentPerson(userName);
-            Console.WriteLine($"\nЗдравствуйте, {homeController.CurrentPerson.FirstName} {homeController.CurrentPerson.LastName}");
-            Console.WriteLine($"Ваша роль: {homeController.CurrentPerson.Status}");
-            
+            if (!homeController.GetPeopleNames().Contains(userName))
+            {
+                Console.WriteLine("Пользователя с таким именем не существует");
+                return false;
+            }
+            homeController.SetCurrentPerson(userName);
+           
+            Console.Write($"\nЗдравствуйте, {homeController.CurrentPerson.FirstName} {homeController.CurrentPerson.LastName}\nВаша роль: ");
+            ConsoleColor tmpColor = Console.ForegroundColor; 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(homeController.CurrentPerson.Status);
+            Console.ForegroundColor = tmpColor;
+
             return true;
         }
 
