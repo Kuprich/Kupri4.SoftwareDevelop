@@ -10,7 +10,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 {
     class Program
     {
-        #region Variables
+        #region Переменные
         int num;
         string firstName;
         string lastName;
@@ -24,7 +24,32 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         HomeController homeController = new();
         #endregion
 
-        #region Methods
+        /// <summary>
+        /// Точка входа в программу
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            Program app = new();
+            app.StartApp();
+        }
+
+        /// <summary>
+        /// старт программы
+        /// </summary>
+        private void StartApp()
+        {
+            if (!Greatings())
+                return;
+            while (ShowActionsAndSelect()) ;
+        }
+
+        #region Вспомогательные методы
+
+        /// <summary>
+        /// Предлагает выбор сотрудника из списка
+        /// </summary>
+        /// <returns>True - если сотрудник выбран</returns>
         bool IsSelectPerson()
         {
             Console.WriteLine($"\nВыберите сотрудника из списка: [1-{homeController.GetPeopleNames().Length}]");
@@ -41,6 +66,11 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
+
+        /// <summary>
+        /// Предлагает выбор временного отрезка в формате [dd:mm:yyyy - dd:mm:yyyy]
+        /// </summary>
+        /// <returns>True - если период введен корректно</returns>
         bool IsSelectPeriod()
         {
             Console.Write("\nВведите дату начала периода в формате dd.mm.yyyy: ");
@@ -54,6 +84,11 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
+
+        /// <summary>
+        /// Добавление сотрудника
+        /// </summary>
+        /// <returns>True - сотрудник добавлен</returns>
         bool IsAddPerson()
         {
             Console.WriteLine("\nВыберите должность добавляемого сотрудника: [1-3]");
@@ -87,11 +122,20 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
+
+        /// <summary>
+        /// Выход из программы
+        /// </summary>
+        /// <returns>True - если пользователь подтвердил выход</returns>
         bool IsExit()
         {
             Console.WriteLine("Вы уверены, что хотите выйти?\nНажмите (Д)а для подтверждения, (Н)ет - для отмены");
             return Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase);
         }
+
+        /// <summary>
+        /// Добавление времени сотруднику
+        /// </summary>
         void AddTime()
         {
             Console.Write("Введите дату в формате dd.mm.yyyy: ");
@@ -101,6 +145,11 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.Write("Текст сообщения: ");
             message = Console.ReadLine().Trim();
         }
+
+        /// <summary>
+        /// Вывод отчета по сотруднику
+        /// </summary>
+        /// <param name="prData">Данные для отчета</param>
         void PrintPersonalReport(PersonalReportData prData)
         {
             Console.WriteLine($"\nОтчет по сотруднику {prData.Name} \nза период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}:");
@@ -108,6 +157,10 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 Console.WriteLine($"{item.Date.ToShortDateString()}, {item.Hours} часов, {item.Mesasge}");
             Console.WriteLine($"Итого: {prData.TotalHours} часов, заработано: {prData.TotalPay} рублей");
         }
+
+        /// <summary>
+        /// Вывод ошибки неправильно выбранного действия
+        /// </summary>
         void PrintInputNumError()
         {
             ConsoleColor tmpColor = Console.ForegroundColor;
@@ -115,21 +168,11 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.WriteLine("\nОшибка ввода!");
             Console.ForegroundColor = tmpColor;
         }
-        #endregion
 
-        static void Main(string[] args)
-        {
-            Program app = new();
-            app.StartApp();
-        }
-
-        private void StartApp()
-        {
-            if (!Greatings()) 
-                return;
-            while (ShowActionsAndSelect()) ;
-        }
-
+        /// <summary>
+        /// Вывод в выбор действий
+        /// </summary>
+        /// <returns>True - действие выполнено</returns>
         private bool ShowActionsAndSelect()
         {
             Console.Write("\nВыберите желаемое действие ");
@@ -191,7 +234,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         #region default:
                         default:
                             PrintInputNumError();
-                            break; 
+                            break;
                             #endregion
                     }
                     break;
@@ -221,15 +264,15 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         #region case "3"
                         case "3":
                             if (IsExit()) return false;
-                            break; 
+                            break;
                         #endregion
                         #region default:
                         default:
                             PrintInputNumError();
-                            break; 
+                            break;
                             #endregion
                     }
-                    break; 
+                    break;
                     #endregion
             }
             return true;
@@ -238,7 +281,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <summary>
         ///  Первоначальный экран приветствия.
         /// </summary>
-        /// <returns>true - если пользователь найден</returns>
+        /// <returns>True - если пользователь найден</returns>
         bool Greatings()
         {
             void Greet()
@@ -268,7 +311,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             {
                 Console.WriteLine("Не найденно ни одного пользователя!");
                 Console.WriteLine("Создать нового пользователя?\nВведите (Д)а для подсверждения операции, (Н)ет - Выход из программы");
-                if (!Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase)) 
+                if (!Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase))
                     return false;
 
                 if (!IsAddPerson())
@@ -278,12 +321,11 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 Greet();
                 return true;
             }
-
             if (Login())
                 Greet();
 
             return true;
         }
-
+        #endregion
     }
 }
