@@ -15,7 +15,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// </summary>
         /// <param name="people"></param>
         /// <returns>true - если получится загрузить данные из файла</returns>
-        public bool GetPeopleList(List<Person> people)
+        public void GetPeopleList(List<Person> people)
         {
             // пока это просто получение тестового набора данных;
             // необходимо заменить это на чтение данных из файла
@@ -54,8 +54,6 @@ namespace Kupri4.SoftwareDevelop.Persistence
                 new TimeRecord(DateTime.Today.AddDays(-2), 9, "Тренировался в зале"),
                 new TimeRecord(DateTime.Today.AddDays(-1), 7, "переводил бабушек через дорогу")
             });
-
-            return true;
         }
     }
 }
