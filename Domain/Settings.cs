@@ -26,5 +26,11 @@ namespace Kupri4.SoftwareDevelop.Domain
             public const string Status = "Фрилансер";
             public const decimal PayPerHour = 1_000M;
         }
+        public const string PeopleListFileName              = @"Db\PeopleList.csv";
+        public const string TimeListForManagersFileName     = @"Db\TimeListForManagers.csv";
+        public const string TimeListForEmployesFileName     = @"Db\TimeListForEmployes.csv";
+        public const string TimeListForFreelancersFileName  = @"Db\TimeListForFreelancers.csv";
+
     }
 }
+                                           

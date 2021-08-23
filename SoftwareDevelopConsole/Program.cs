@@ -23,11 +23,13 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         decimal totalPay;
         HomeController homeController = new();
         #endregion
+
         static void Main()
         {
             Program app = new();
             app.StartApp();
         } 
+
         #region StartApp()
         /// <summary>
         /// старт программы
@@ -49,7 +51,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         {
             void Greet()
             {
-                Console.Write($"\nЗдравствуйте, {homeController.CurrentPerson.FirstName} {homeController.CurrentPerson.LastName}\nВаша роль: ");
+                Console.Write($"Здравствуйте, {homeController.CurrentPerson.FirstName} {homeController.CurrentPerson.LastName}\nВаша роль: ");
                 ConsoleColor tmpColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(homeController.CurrentPerson.Status);
@@ -57,14 +59,15 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             bool Login()
             {
-                Console.WriteLine("Введите имя пользователя: ");
-                string userName = Console.ReadLine();
+                Console.Write("Введите имя пользователя: ");
+                string userName = Console.ReadLine().Trim();
 
                 if (!homeController.GetPeopleNames().Contains(userName))
                 {
                     Console.WriteLine("Пользователя с таким именем не существует\n Программа будет завершена");
                     return false;
                 }
+                homeController.SetCurrentPerson(userName);
                 return true;
             }
 
@@ -97,7 +100,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <returns>True - действие выполнено</returns>
         private bool ShowActionsAndSelect()
         {
-            Console.Write("\nВыберите желаемое действие ");
+            Console.Write("Выберите желаемое действие ");
             switch (homeController.CurrentPerson)
             {
                 #region Manager Actions         
@@ -107,7 +110,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                     Console.WriteLine("[2] - Добавить время сотруднику:");
                     Console.WriteLine("[3] - Отчет за период по всем сотрудникам");
                     Console.WriteLine("[4] - Отчет за период по одному сотруднику");
-                    Console.WriteLine("[5] - Выход\n");
+                    Console.WriteLine("[5] - Выход");
                     switch (Console.ReadLine().Trim())
                     {
                         #region case "1"
@@ -118,7 +121,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         #region case "2"
                         case "2":
                             if (!IsSelectPerson()) break;
-                            AddTime();
+                            if (!IsAddTime()) break;
                             homeController.AddTime(homeController.GetPeopleNames()[num - 1], date, hours, message);
                             break;
                         #endregion
@@ -126,7 +129,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         case "3":
                             if (!IsSelectPeriod()) break;
                             GeneralReportData[] grData = homeController.GetReportForAllPersons(startDate, endDate);
-                            Console.WriteLine($"\nОтчет за период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}");
+                            Console.WriteLine($"Отчет за период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}");
                             totalHours = 0;
                             totalPay = 0;
                             foreach (GeneralReportData item in grData)
@@ -173,7 +176,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                     {
                         #region case "1"
                         case "1":
-                            AddTime();
+                            if (!IsAddTime()) break;
                             homeController.AddTime(homeController.CurrentPerson.FirstName, date, hours, message);
                             break;
                         #endregion
@@ -208,11 +211,11 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <returns>True - если сотрудник выбран</returns>
         bool IsSelectPerson()
         {
-            Console.WriteLine($"\nВыберите сотрудника из списка: [1-{homeController.GetPeopleNames().Length}]");
+            Console.WriteLine($"Выберите сотрудника из списка: [1-{homeController.GetPeopleNames().Length}]");
 
             for (int i = 0; i < homeController.GetPeopleNames().Length; i++)
                 Console.WriteLine($"[{i + 1}] - {homeController.GetPeopleNames()[i]}");
-            Console.WriteLine();
+
             num = int.Parse(Console.ReadLine().Trim());
 
             if (num < 1 || num > homeController.GetPeopleNames().Length)
@@ -230,10 +233,12 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <returns>True - если период введен корректно</returns>
         bool IsSelectPeriod()
         {
-            Console.Write("\nВведите дату начала периода в формате dd.mm.yyyy: ");
-            startDate = DateTime.Parse(Console.ReadLine().Trim());
+            Console.Write("Введите дату начала периода в формате dd.mm.yyyy: ");
+            if (!CheckDateFormat(Console.ReadLine().Trim(), out startDate))
+                return false;
             Console.Write("Введите дату окончания периода в формате dd.mm.yyyy: ");
-            endDate = DateTime.Parse(Console.ReadLine().Trim());
+            if (!CheckDateFormat(Console.ReadLine().Trim(), out endDate))
+                return false;
             if (startDate > endDate)
             {
                 Console.WriteLine("Дата начала не может быть раньше, чем дата окончания");
@@ -249,10 +254,10 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <returns>True - сотрудник добавлен</returns>
         bool IsAddPerson()
         {
-            Console.WriteLine("\nВыберите должность добавляемого сотрудника: [1-3]");
+            Console.WriteLine("Выберите должность добавляемого сотрудника: [1-3]");
             Console.WriteLine($"[1] - Руководитель");
             Console.WriteLine($"[2] - Сотрудник на зарплате");
-            Console.WriteLine($"[3] - Фрилансер\n");
+            Console.WriteLine($"[3] - Фрилансер");
 
             num = int.Parse(Console.ReadLine().Trim());
             if (num < 1 || num > 3)
@@ -292,19 +297,54 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase);
         }
         #endregion
-        #region AddTime()
+        #region IsAddTime()
         /// <summary>
         /// Добавление времени сотруднику
         /// </summary>
-        void AddTime()
+        /// <returns>True - время добавлено</returns> 
+        bool IsAddTime()
         {
             Console.Write("Введите дату в формате dd.mm.yyyy: ");
-            date = DateTime.Parse(Console.ReadLine().Trim());
+            if (!CheckDateFormat(Console.ReadLine().Trim(), out date))
+                return false;
             Console.Write("Кол-во часов работы: ");
             hours = byte.Parse(Console.ReadLine().Trim());
+            if (hours > 24)
+            {
+                Console.WriteLine("Кол-во часов не может быть больше, чем 24");
+                return false;
+            }
+
             Console.Write("Текст сообщения: ");
             message = Console.ReadLine().Trim();
+
+            return true;
         }
+        #endregion
+        #region CheckDateFormat(string value, out DateTime date)
+        /// <summary>
+        /// Проверка конвертирования даты в число
+        /// </summary>
+        /// <param name="value">строковое значение даты</param>
+        /// <param name="date">полученное значение после преобразования</param>
+        /// <returns>True - если преобразование прошо успешно</returns>
+        bool CheckDateFormat(string value, out DateTime date)
+        {
+            try
+            {
+                date = DateTime.Parse(value);
+                return true;
+            }
+            catch
+            {
+                ConsoleColor tmpColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неверный формат вводимой даты");
+                Console.ForegroundColor = tmpColor;
+                date = DateTime.MinValue;
+                return false;
+            }
+        } 
         #endregion
         #region PrintPersonalReport(PersonalReportData prData)
         /// <summary>
@@ -313,7 +353,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <param name="prData">Данные для отчета</param>
         void PrintPersonalReport(PersonalReportData prData)
         {
-            Console.WriteLine($"\nОтчет по сотруднику {prData.Name} \nза период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}:");
+            Console.WriteLine($"Отчет по сотруднику {prData.Name} \nза период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}:");
             foreach (var item in prData.TimeRecords)
                 Console.WriteLine($"{item.Date.ToShortDateString()}, {item.Hours} часов, {item.Mesasge}");
             Console.WriteLine($"Итого: {prData.TotalHours} часов, заработано: {prData.TotalPay} рублей");
@@ -327,7 +367,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         {
             ConsoleColor tmpColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\nОшибка ввода!");
+            Console.WriteLine("Ошибка ввода!");
             Console.ForegroundColor = tmpColor;
         }
         #endregion

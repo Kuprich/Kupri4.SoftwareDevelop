@@ -14,7 +14,10 @@ namespace Kupri4.SoftwareDevelop.Persistence
         List<Person> people = new();
         FileService fileService = new();
         public Person CurrentPerson { get; private set; }
-        public HomeController() { }
+        public HomeController()
+        {
+            fileService.GetPeopleList(people);
+        }
         public string[] GetPeopleNames()
         {  
             return people.Select(p => p.FirstName).ToArray();
