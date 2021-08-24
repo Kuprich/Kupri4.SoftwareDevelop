@@ -1,59 +1,112 @@
 ﻿using Kupri4.SoftwareDevelop.Domain;
 using Kupri4.SoftwareDevelop.Domain.Persons;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kupri4.SoftwareDevelop.Persistence
 {
     class FileService
     {
+        public FileService() { FileInitialize(); }
+
+        #region void FileInitialize()
+        /// <summary>
+        /// Инициализация каталогов и файлов для хранения записей
+        /// </summary>
+        void FileInitialize()
+        {
+            if (!Directory.Exists(Settings.BaseDir))
+                Directory.CreateDirectory(Settings.BaseDir);
+
+            foreach (string filePath in new string[]{
+                Settings.PeopleListPath,
+                Settings.Manager.TimeRecordsFilePath,
+                Settings.Employee.TimeRecordsFilePath,
+                Settings.Freelancer.TimeRecordsFilePath})
+                if (!File.Exists(filePath))
+                    File.CreateText(filePath).Close();
+        }
+        #endregion
+        #region public void SaveTimeRecordToFile(string personName)
+        /// <summary>
+        /// Сохранение временной записи в файл
+        /// </summary>
+        /// <param name="personName">Имя сотрудника</param>
+        public void SaveTimeRecordToFile(string personName)
+        {
+            Person p = HomeController.People.First(p => p.FirstName == personName);
+            TimeRecord tr = p.TimeRecords.Last();
+            string filePath = null;
+            switch (p)
+            {
+                case Manager:
+                    filePath = Settings.Manager.TimeRecordsFilePath;
+                    break;
+                case Employee:
+                    filePath = Settings.Employee.TimeRecordsFilePath;
+                    break;
+                case Freelancer:
+                    filePath = Settings.Employee.TimeRecordsFilePath;
+                    break;
+            }
+            File.AppendAllText(filePath, $"{tr.Date.ToShortDateString()},{p.FirstName},{tr.Hours},{tr.Mesasge}");
+        }
+        #endregion
+        #region public void LoadPeopleDataFromFiles()
         /// <summary>
         /// Получить список пользователей из файла "Список сотрудников"
         /// </summary>
         /// <param name="people"></param>
         /// <returns>true - если получится загрузить данные из файла</returns>
-        public void GetPeopleList(List<Person> people)
+        public void LoadPeopleDataFromFiles()
         {
-            // пока это просто получение тестового набора данных;
-            // необходимо заменить это на чтение данных из файла
-
-            // получение списка сотрудников;
-            people.Add(new Manager("Иван", "Михайлович"));
-            people.Add(new Employee("Василий", "Иванович"));
-            people.Add(new Employee("Геннадий", "Петрович"));
-            people.Add(new Freelancer("Василий", "Иванков"));
-
-            // получение их времени работы
-            people[0].TimeRecords.AddRange(new TimeRecord[]
+            void LoadTimeRecords(string filePath)
             {
-                new TimeRecord(DateTime.Today.AddDays(-3), 8, "Сидел дома"),
-                new TimeRecord(DateTime.Today.AddDays(-2), 9, "Играл в пасьянс"),
-                new TimeRecord(DateTime.Today.AddDays(-1), 7, "Пил кофе")
-            });
+                Person person = HomeController.People.Last();
+                string[] TimeRecordsData = File.ReadAllLines(filePath);
+                foreach (string line in TimeRecordsData)
+                {
+                    string[] items = line.Split(',').Select(s => s.Trim()).ToArray();
 
-            people[1].TimeRecords.AddRange(new TimeRecord[]
-            {
-                new TimeRecord(DateTime.Today.AddDays(-3), 8, "Безельничал"),
-                new TimeRecord(DateTime.Today.AddDays(-2), 9, "Играл в бильярд"),
-                new TimeRecord(DateTime.Today.AddDays(-1), 7, "сидел в телеге")
-            });
+                    if (items[1] == person.FirstName)
+                        person.TimeRecords.Add(new TimeRecord(DateTime.Parse(items[0]), byte.Parse(items[2]), items[3]));
+                }
+            }
 
-            people[2].TimeRecords.AddRange(new TimeRecord[]
+            string[] peopleData = File.ReadAllLines(Settings.PeopleListPath);
+
+            foreach (string line in peopleData)
             {
-                new TimeRecord(DateTime.Today.AddDays(-3), 8, "Ломал стул"),
-                new TimeRecord(DateTime.Today.AddDays(-2), 9, "Царапал мебель"),
-                new TimeRecord(DateTime.Today.AddDays(-1), 7, "Играл в КС")
-            }); 
-            
-            people[3].TimeRecords.AddRange(new TimeRecord[]
-            {
-                new TimeRecord(DateTime.Today.AddDays(-3), 8, "Чинил кофемашину"),
-                new TimeRecord(DateTime.Today.AddDays(-2), 9, "Тренировался в зале"),
-                new TimeRecord(DateTime.Today.AddDays(-1), 7, "переводил бабушек через дорогу")
-            });
+                string[] items = line.Split(',').Select(s => s.Trim()).ToArray();
+
+                switch (items.Last())
+                {
+                    case Settings.Manager.Status:
+                        HomeController.People.Add(new Manager(items[0], items[1]));
+                        LoadTimeRecords(Settings.Manager.TimeRecordsFilePath);
+                        break;
+
+                    case Settings.Employee.Status:
+                        HomeController.People.Add(new Employee(items[0], items[1]));
+                        LoadTimeRecords(Settings.Employee.TimeRecordsFilePath);
+                        break;
+
+                    case Settings.Freelancer.Status:
+                        HomeController.People.Add(new Freelancer(items[0], items[1]));
+                        LoadTimeRecords(Settings.Freelancer.TimeRecordsFilePath);
+                        break;
+                }
+            }
         }
+        #endregion
+        #region public void SavePersonToFile(Person p)
+        /// <summary>
+        /// Сохранение данных о сотруднике в файл
+        /// </summary>
+        /// <param name="p"></param>
+        public void SavePersonToFile(Person p) =>
+            File.AppendAllText(Settings.PeopleListPath, $"{p.FirstName},{p.LastName},{p.Status}"); 
+        #endregion
     }
 }

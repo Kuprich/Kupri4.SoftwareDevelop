@@ -10,7 +10,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 {
     class Program
     {
-        #region Переменные
+        #region Поля и свойства
         int num;
         string firstName;
         string lastName;
@@ -28,9 +28,9 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         {
             Program app = new();
             app.StartApp();
-        } 
+        }
 
-        #region StartApp()
+        #region private void StartApp()
         /// <summary>
         /// старт программы
         /// </summary>
@@ -39,10 +39,10 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             if (!Greatings())
                 return;
             while (ShowActionsAndSelect()) ;
-        } 
+        }
         #endregion
 
-        #region Greatings()
+        #region bool Greatings()
         /// <summary>
         ///  Первоначальный экран приветствия.
         /// </summary>
@@ -64,7 +64,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
                 if (!homeController.GetPeopleNames().Contains(userName))
                 {
-                    Console.WriteLine("Пользователя с таким именем не существует\n Программа будет завершена");
+                    Console.WriteLine("Пользователя с таким именем не существует\nПрограмма будет завершена");
                     return false;
                 }
                 homeController.SetCurrentPerson(userName);
@@ -87,13 +87,14 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 Greet();
                 return true;
             }
-            if (Login())
-                Greet();
+
+            if (!Login()) return false;
+            Greet();
 
             return true;
-        } 
+        }
         #endregion
-        #region ShowActionsAndSelect()
+        #region bool ShowActionsAndSelect()
         /// <summary>
         /// Вывод в выбор действий
         /// </summary>
@@ -204,7 +205,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         }
         #endregion
 
-        #region IsSelectPerson()
+        #region bool IsSelectPerson()
         /// <summary>
         /// Предлагает выбор сотрудника из списка
         /// </summary>
@@ -226,7 +227,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return true;
         }
         #endregion
-        #region IsSelectPeriod()
+        #region bool IsSelectPeriod()
         /// <summary>
         /// Предлагает выбор временного отрезка в формате [dd:mm:yyyy - dd:mm:yyyy]
         /// </summary>
@@ -247,7 +248,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return true;
         }
         #endregion
-        #region IsAddPerson()
+        #region bool IsAddPerson()
         /// <summary>
         /// Добавление сотрудника
         /// </summary>
@@ -286,7 +287,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return true;
         }
         #endregion
-        #region IsExit()
+        #region bool IsExit()
         /// <summary>
         /// Выход из программы
         /// </summary>
@@ -297,7 +298,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase);
         }
         #endregion
-        #region IsAddTime()
+        #region bool IsAddTime()
         /// <summary>
         /// Добавление времени сотруднику
         /// </summary>
@@ -321,7 +322,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return true;
         }
         #endregion
-        #region CheckDateFormat(string value, out DateTime date)
+        #region bool CheckDateFormat(string value, out DateTime date)
         /// <summary>
         /// Проверка конвертирования даты в число
         /// </summary>
@@ -344,9 +345,9 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 date = DateTime.MinValue;
                 return false;
             }
-        } 
+        }
         #endregion
-        #region PrintPersonalReport(PersonalReportData prData)
+        #region void PrintPersonalReport(PersonalReportData prData)
         /// <summary>
         /// Вывод отчета по сотруднику
         /// </summary>
@@ -359,7 +360,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.WriteLine($"Итого: {prData.TotalHours} часов, заработано: {prData.TotalPay} рублей");
         }
         #endregion
-        #region PrintInputNumError()
+        #region void PrintInputNumError()
         /// <summary>
         /// Вывод ошибки неправильно выбранного действия
         /// </summary>
