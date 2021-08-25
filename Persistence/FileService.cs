@@ -50,7 +50,8 @@ namespace Kupri4.SoftwareDevelop.Persistence
                     filePath = Settings.Employee.TimeRecordsFilePath;
                     break;
             }
-            File.AppendAllText(filePath, $"{tr.Date.ToShortDateString()},{p.FirstName},{tr.Hours},{tr.Mesasge}");
+            using StreamWriter writer = File.AppendText(filePath);
+            writer.WriteLine($"{tr.Date.ToShortDateString()},{p.FirstName},{tr.Hours},{tr.Mesasge}");
         }
         #endregion
         #region public void LoadPeopleDataFromFiles()
@@ -105,8 +106,12 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// Сохранение данных о сотруднике в файл
         /// </summary>
         /// <param name="p"></param>
-        public void SavePersonToFile(Person p) =>
-            File.AppendAllText(Settings.PeopleListPath, $"{p.FirstName},{p.LastName},{p.Status}"); 
+        public void SavePersonToFile(Person p)
+        {
+            using StreamWriter writer = File.AppendText(Settings.PeopleListPath);
+            writer.WriteLine($"{p.FirstName},{p.LastName},{p.Status}");
+        }
+
         #endregion
     }
 }

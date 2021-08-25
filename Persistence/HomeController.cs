@@ -11,11 +11,19 @@ namespace Kupri4.SoftwareDevelop.Persistence
 {
     public class HomeController
     {
-        
+        /// <summary>
+        /// весь список пользователей с записями работы
+        /// </summary>
         internal static List<Person> People { get; set; } =  new();
-        FileService fileService = new();
-        public Person CurrentPerson { get; private set; }
 
+        FileService fileService = new();
+        /// <summary>
+        /// Текущий авторизованный пользователь
+        /// </summary>
+        public Person CurrentPerson { get; private set; }
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
         public HomeController() { fileService.LoadPeopleDataFromFiles(); }
 
         #region public string[] GetPeopleNames()
