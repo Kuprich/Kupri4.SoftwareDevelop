@@ -7,8 +7,6 @@ ____
 
 Ссылка на YouTube канал: https://www.youtube.com/c/SBeregovoyRU/featured
 
-Плейлист с разработкой: https://www.youtube.com/watch?v=tSEsbBWyR-Q&list=PL9dWBtRq5J0KCr4yOLADAOqFIA65O21bz&index=1
-
 P.S. Приложение отличается от проекта, разрабатываемого автором Ютуб - канала.
 Показан один из способов реализации (я художник, я так вижу:) )
 
