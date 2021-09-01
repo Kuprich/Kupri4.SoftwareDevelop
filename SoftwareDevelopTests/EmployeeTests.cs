@@ -7,10 +7,6 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopTests
 {
     public class EmployeeTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
 
         [Test]
         public void GetPayOnPeriodTest()
