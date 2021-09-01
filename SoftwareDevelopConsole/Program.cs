@@ -10,7 +10,6 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 {
     class Program
     {
-        #region Поля и свойства
         int num;
         string firstName;
         string lastName;
@@ -22,7 +21,6 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         int totalHours;
         decimal totalPay;
         HomeController homeController = new();
-        #endregion
 
         static void Main()
         {
@@ -30,7 +28,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             app.StartApp();
         }
 
-        #region private void StartApp()
+
         /// <summary>
         /// старт программы
         /// </summary>
@@ -40,9 +38,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 return;
             while (ShowActionsAndSelect()) ;
         }
-        #endregion
 
-        #region bool Greatings()
         /// <summary>
         ///  Первоначальный экран приветствия.
         /// </summary>
@@ -93,8 +89,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
             return true;
         }
-        #endregion
-        #region bool ShowActionsAndSelect()
+
         /// <summary>
         /// Вывод в выбор действий
         /// </summary>
@@ -203,9 +198,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
-        #endregion
 
-        #region bool IsSelectPerson()
         /// <summary>
         /// Предлагает выбор сотрудника из списка
         /// </summary>
@@ -226,8 +219,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
-        #endregion
-        #region bool IsSelectPeriod()
+
         /// <summary>
         /// Предлагает выбор временного отрезка в формате [dd:mm:yyyy - dd:mm:yyyy]
         /// </summary>
@@ -247,8 +239,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
-        #endregion
-        #region bool IsAddPerson()
+
         /// <summary>
         /// Добавление сотрудника
         /// </summary>
@@ -286,8 +277,8 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             }
             return true;
         }
-        #endregion
-        #region bool IsExit()
+
+
         /// <summary>
         /// Выход из программы
         /// </summary>
@@ -297,8 +288,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.WriteLine("Вы уверены, что хотите выйти?\nНажмите (Д)а для подтверждения, (Н)ет - для отмены");
             return Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase);
         }
-        #endregion
-        #region bool IsAddTime()
+
         /// <summary>
         /// Добавление времени сотруднику
         /// </summary>
@@ -321,8 +311,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
             return true;
         }
-        #endregion
-        #region bool CheckDateFormat(string value, out DateTime date)
+
         /// <summary>
         /// Проверка конвертирования даты в число
         /// </summary>
@@ -346,8 +335,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 return false;
             }
         }
-        #endregion
-        #region void PrintPersonalReport(PersonalReportData prData)
+
         /// <summary>
         /// Вывод отчета по сотруднику
         /// </summary>
@@ -359,8 +347,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 Console.WriteLine($"{item.Date.ToShortDateString()}, {item.Hours} часов, {item.Mesasge}");
             Console.WriteLine($"Итого: {prData.TotalHours} часов, заработано: {prData.TotalPay} рублей");
         }
-        #endregion
-        #region void PrintInputNumError()
+
         /// <summary>
         /// Вывод ошибки неправильно выбранного действия
         /// </summary>
@@ -371,6 +358,6 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.WriteLine("Ошибка ввода!");
             Console.ForegroundColor = tmpColor;
         }
-        #endregion
+
     }
 }

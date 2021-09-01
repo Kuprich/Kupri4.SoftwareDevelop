@@ -26,23 +26,23 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// </summary>
         public HomeController() { fileService.LoadPeopleDataFromFiles(); }
 
-        #region public string[] GetPeopleNames()
+
         /// <summary>
         /// Получение массива имен сотрудников
         /// </summary>
         /// <returns>массив имен сотрудников</returns>
         public string[] GetPeopleNames()
             => People.Select(p => p.FirstName).ToArray();
-        #endregion
-        #region public void SetCurrentPerson(string userName)
+
+
         /// <summary>
         /// Установка значения для текущего выбранного сотрудника
         /// </summary>
         /// <param name="personName">Имя сотрудника</param>
         public void SetCurrentPerson(string personName) =>
             CurrentPerson = People.First(p => p.FirstName == personName);
-        #endregion
-        #region  public void AddTime(string personName, DateTime date, byte hours, string mesage)
+
+
         /// <summary>
         /// Добавление времени сотруднику
         /// </summary>
@@ -56,8 +56,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
                 .TimeRecords.Add(new TimeRecord(date, hours, mesage));
             fileService.SaveTimeRecordToFile(personName);
         }
-        #endregion
-        #region public GeneralReportData[] GetReportForAllPersons(DateTime startDate, DateTime endDate)
+
         /// <summary>
         /// Общий отчет по сотруднику
         /// </summary>
@@ -67,8 +66,8 @@ namespace Kupri4.SoftwareDevelop.Persistence
         public GeneralReportData[] GetReportForAllPersons(DateTime startDate, DateTime endDate) => People
             .Select(p => new GeneralReportData(p.FirstName, p.GetHoursOnPeriod(startDate, endDate).Sum(), p.GetPayOnPeriod(startDate, endDate)))
             .ToArray();
-        #endregion
-        #region public PersonalReportData GetReportForAnyPerson(string personName, DateTime startDate, DateTime endDate)
+
+
         /// <summary>
         /// Отчет по одному сотруднику
         /// </summary>
@@ -81,8 +80,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
             Person p = People.First(p => p.FirstName.Equals(personName));
             return new(p.FirstName, p.TimeRecords, p.GetPayOnPeriod(startDate, endDate));
         }
-        #endregion
-        #region  public void AddManager(string firstName, string lastName)
+
         /// <summary>
         /// Добавление сотрудника с должностью "Руководитель"
         /// </summary>
@@ -94,8 +92,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
             People.Add(manager);
             fileService.SavePersonToFile(manager);
         }
-        #endregion
-        #region public void AddEmployee(string firstName, string lastName)
+
         /// <summary>
         /// Добавление сотрудника с должностью "Сотрудник на зарплате"
         /// </summary>
@@ -107,8 +104,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
             People.Add(employee);
             fileService.SavePersonToFile(employee);
         }
-        #endregion
-        #region public void AddFreelancer(string firstName, string lastName)
+
         /// <summary>
         /// Добавление сотрудника с должностью "Фрилансер"
         /// </summary>
@@ -120,6 +116,5 @@ namespace Kupri4.SoftwareDevelop.Persistence
             People.Add(freelancer);
             fileService.SavePersonToFile(freelancer);
         } 
-        #endregion
     }
 }

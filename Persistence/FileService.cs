@@ -10,7 +10,6 @@ namespace Kupri4.SoftwareDevelop.Persistence
     {
         public FileService() { FileInitialize(); }
 
-        #region void FileInitialize()
         /// <summary>
         /// Инициализация каталогов и файлов для хранения записей
         /// </summary>
@@ -27,8 +26,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
                 if (!File.Exists(filePath))
                     File.CreateText(filePath).Close();
         }
-        #endregion
-        #region public void SaveTimeRecordToFile(string personName)
+
         /// <summary>
         /// Сохранение временной записи в файл
         /// </summary>
@@ -53,8 +51,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
             using StreamWriter writer = File.AppendText(filePath);
             writer.WriteLine($"{tr.Date.ToShortDateString()},{p.FirstName},{tr.Hours},{tr.Mesasge}");
         }
-        #endregion
-        #region public void LoadPeopleDataFromFiles()
+
         /// <summary>
         /// Получить список пользователей из файла "Список сотрудников"
         /// </summary>
@@ -100,8 +97,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
                 }
             }
         }
-        #endregion
-        #region public void SavePersonToFile(Person p)
+
         /// <summary>
         /// Сохранение данных о сотруднике в файл
         /// </summary>
@@ -111,7 +107,5 @@ namespace Kupri4.SoftwareDevelop.Persistence
             using StreamWriter writer = File.AppendText(Settings.PeopleListPath);
             writer.WriteLine($"{p.FirstName},{p.LastName},{p.Status}");
         }
-
-        #endregion
     }
 }

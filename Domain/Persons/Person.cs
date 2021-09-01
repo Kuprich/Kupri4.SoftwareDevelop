@@ -23,8 +23,6 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         /// </summary>
         public string Status { get; }
 
-
-        #region protected Person(string firstName, string lastName, string status)
         /// <summary>
         /// Конструтор класса
         /// </summary>
@@ -37,13 +35,10 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
             LastName = lastName;
             Status = status;
         }
-        #endregion
-        #region protected Person() { }
+
         /// <summary> Конструктор класса без параметров </summary>
         protected Person() { } 
-        #endregion
 
-        #region public abstract decimal GetPayOnPeriod(DateTime startDate, DateTime endDate); 
         /// <summary>
         /// Подстчет заработанных за период денег
         /// </summary>
@@ -51,8 +46,7 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         /// <param name="endDate">Конец периода</param>
         /// <returns>Кол-во денег</returns>
         public abstract decimal GetPayOnPeriod(DateTime startDate, DateTime endDate); 
-        #endregion
-        #region public int[] GetHoursOnPeriod(DateTime startDate, DateTime endDate)
+
         /// <summary>
         /// Выборка кол-ва часов за период
         /// </summary>
@@ -66,7 +60,6 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
             .Select(r => r.Hours)
             .ToArray();
         } 
-        #endregion
 
     }
 }
