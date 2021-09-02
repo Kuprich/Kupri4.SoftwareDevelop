@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Persistence\SoftwareDevelop.Persistence.csproj" />
+    <ProjectReference Include="..\Persistence\Kupri4.SoftwareDevelop.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
