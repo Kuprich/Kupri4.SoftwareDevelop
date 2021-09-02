@@ -1,6 +1,7 @@
 ﻿using Kupri4.SoftwareDevelop.Domain;
 using Kupri4.SoftwareDevelop.Domain.Persons;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -68,7 +69,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
                     string[] LineData = line.Split(',').Select(s => s.Trim()).ToArray();
 
                     if (LineData[1] == person.FirstName)
-                        person.TimeRecords.Add(new TimeRecord(DateTime.Parse(LineData[0]), byte.Parse(LineData[2]), LineData[3]));
+                        person.TimeRecords.Add(new TimeRecord(DateTime.ParseExact(LineData[0], "dd.MM.yyyy", CultureInfo.InvariantCulture), byte.Parse(LineData[2]), LineData[3]));
                 }
             }
 

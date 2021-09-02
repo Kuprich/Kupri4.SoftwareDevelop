@@ -63,6 +63,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                     Console.WriteLine("Пользователя с таким именем не существует\nПрограмма будет завершена");
                     return false;
                 }
+
                 homeController.SetCurrentPerson(userName);
                 return true;
             }
@@ -73,20 +74,31 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             {
                 Console.WriteLine("Не найденно ни одного пользователя!");
                 Console.WriteLine("Создать нового пользователя?\nВведите (Д)а для подсверждения операции, (Н)ет - Выход из программы");
+
                 if (!Console.ReadLine().Trim().Equals("Д", StringComparison.OrdinalIgnoreCase))
+                {
                     return false;
+                }
 
                 if (!IsAddPerson())
+                {
                     return false;
+                }
                 else
+                {
                     homeController.SetCurrentPerson(firstName);
+                }
+
                 Greet();
                 return true;
             }
 
-            if (!Login()) return false;
-            Greet();
+            if (!Login())
+            {
+                return false;
+            }
 
+            Greet();
             return true;
         }
 
@@ -98,7 +110,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         {
             Console.Write("Выберите желаемое действие ");
             switch (homeController.CurrentPerson)
-            {   
+            {
                 case Manager:
                     Console.WriteLine("[1-5]:");
                     Console.WriteLine("[1] - Добавить сотрудника");
@@ -111,11 +123,13 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                         case "1":
                             IsAddPerson();
                             break;
+
                         case "2":
                             if (!IsSelectPerson()) break;
                             if (!IsAddTime()) break;
                             homeController.AddTime(homeController.GetPeopleNames()[num - 1], date, hours, message);
                             break;
+
                         case "3":
                             if (!IsSelectPeriod()) break;
                             GeneralReportData[] grData = homeController.GetReportForAllPersons(startDate, endDate);
@@ -129,15 +143,15 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                                 totalPay += item.Pay;
                             }
                             Console.WriteLine($"Всего часов отработано за период: {totalHours}, Сумма к выплате: {totalPay}");
-                            //Console.WriteLine("Желаете просмотреть еще один отчет? Нажмите \"(Д)а\" для продожения, \n \"(Н)ет\"для выхода на главный экран");
-
                             Console.WriteLine();
                             break;
+
                         case "4":
                             if (!IsSelectPerson()) break;
                             if (!IsSelectPeriod()) break;
                             PrintPersonalReport(homeController.GetReportForAnyPerson(homeController.GetPeopleNames()[num - 1], startDate, endDate));
                             break;
+
                         case "5":
                             if (IsExit()) return false;
                             break;
@@ -191,13 +205,14 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             for (int i = 0; i < homeController.GetPeopleNames().Length; i++)
                 Console.WriteLine($"[{i + 1}] - {homeController.GetPeopleNames()[i]}");
 
-            num = int.Parse(Console.ReadLine().Trim());
+            int.TryParse(Console.ReadLine().Trim(), out num);
 
             if (num < 1 || num > homeController.GetPeopleNames().Length)
             {
                 PrintInputNumError();
                 return false;
             }
+
             return true;
         }
 
@@ -208,16 +223,21 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         bool IsSelectPeriod()
         {
             Console.Write("Введите дату начала периода в формате dd.mm.yyyy: ");
+
             if (!CheckDateFormat(Console.ReadLine().Trim(), out startDate))
                 return false;
+
             Console.Write("Введите дату окончания периода в формате dd.mm.yyyy: ");
+
             if (!CheckDateFormat(Console.ReadLine().Trim(), out endDate))
                 return false;
+
             if (startDate > endDate)
             {
                 Console.WriteLine("Дата начала не может быть раньше, чем дата окончания");
                 return false;
             }
+
             return true;
         }
 
@@ -232,7 +252,8 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.WriteLine($"[2] - Сотрудник на зарплате");
             Console.WriteLine($"[3] - Фрилансер");
 
-            num = int.Parse(Console.ReadLine().Trim());
+            int.TryParse(Console.ReadLine().Trim(), out num);
+
             if (num < 1 || num > 3)
             {
                 PrintInputNumError();
@@ -241,8 +262,14 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
             Console.Write("Введите Имя: ");
             firstName = Console.ReadLine().Trim();
+
             Console.Write("Введите Фамилию: ");
             lastName = Console.ReadLine().Trim();
+
+            if (firstName == "" || lastName == "")
+            {
+                return false;
+            }
 
             switch (num)
             {
