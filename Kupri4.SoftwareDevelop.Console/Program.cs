@@ -1,9 +1,9 @@
-﻿using Kupri4.SoftwareDevelop.Domain.Persons;
+﻿
+using Kupri4.SoftwareDevelop.Domain.Persons;
 using Kupri4.SoftwareDevelop.Persistence;
 using Kupri4.SoftwareDevelop.Persistence.ReportTemplates;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
+
 using System.Linq;
 
 namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole

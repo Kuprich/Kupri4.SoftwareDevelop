@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyName>Kupri4.SoftwareDevelop.SoftwareDevelopTests</AssemblyName>
-    <RootNamespace>Kupri4.SoftwareDevelop.SoftwareDevelopTests</RootNamespace>
+    <AssemblyName>Kupri4.SoftwareDevelop.Tests</AssemblyName>
+    <RootNamespace>Kupri4.SoftwareDevelop.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Kupri4.SoftwareDevelop.Domain.csproj" />
+    <ProjectReference Include="..\Kupri4.SoftwareDevelop.Domain\Kupri4.SoftwareDevelop.Domain.csproj" />
   </ItemGroup>
 
 </Project>

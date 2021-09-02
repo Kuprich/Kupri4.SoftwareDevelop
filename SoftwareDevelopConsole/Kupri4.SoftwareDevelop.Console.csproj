@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kupri4.SoftwareDevelop.Domain\Kupri4.SoftwareDevelop.Domain.csproj" />
-    <ProjectReference Include="..\Kupri4.SoftwareDevelop.Persistence\Kupri4.SoftwareDevelop.Persistence.csproj" />
+    <ProjectReference Include="Kupri4.SoftwareDevelop.Console\Kupri4.SoftwareDevelop.Console.csproj" />
   </ItemGroup>
 
 </Project>
