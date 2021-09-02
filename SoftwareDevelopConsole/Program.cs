@@ -98,8 +98,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         {
             Console.Write("Выберите желаемое действие ");
             switch (homeController.CurrentPerson)
-            {
-                #region Manager Actions         
+            {   
                 case Manager:
                     Console.WriteLine("[1-5]:");
                     Console.WriteLine("[1] - Добавить сотрудника");
@@ -109,19 +108,14 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                     Console.WriteLine("[5] - Выход");
                     switch (Console.ReadLine().Trim())
                     {
-                        #region case "1"
                         case "1":
                             IsAddPerson();
                             break;
-                        #endregion
-                        #region case "2"
                         case "2":
                             if (!IsSelectPerson()) break;
                             if (!IsAddTime()) break;
                             homeController.AddTime(homeController.GetPeopleNames()[num - 1], date, hours, message);
                             break;
-                        #endregion
-                        #region case "3"
                         case "3":
                             if (!IsSelectPeriod()) break;
                             GeneralReportData[] grData = homeController.GetReportForAllPersons(startDate, endDate);
@@ -139,29 +133,21 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
                             Console.WriteLine();
                             break;
-                        #endregion
-                        #region case "4"
                         case "4":
                             if (!IsSelectPerson()) break;
                             if (!IsSelectPeriod()) break;
                             PrintPersonalReport(homeController.GetReportForAnyPerson(homeController.GetPeopleNames()[num - 1], startDate, endDate));
                             break;
-                        #endregion
-                        #region case "5"
                         case "5":
                             if (IsExit()) return false;
                             break;
-                        #endregion
-                        #region default:
+
                         default:
                             PrintInputNumError();
                             break;
-                            #endregion
                     }
                     break;
-                #endregion
 
-                #region Employee & Freelancer Actions
                 case Employee:
                 case Freelancer:
                     Console.WriteLine("[1-3]:");
@@ -170,31 +156,26 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                     Console.WriteLine("[3]. Выход:");
                     switch (Console.ReadLine().Trim())
                     {
-                        #region case "1"
                         case "1":
                             if (!IsAddTime()) break;
                             homeController.AddTime(homeController.CurrentPerson.FirstName, date, hours, message);
                             break;
-                        #endregion
-                        #region case "2"
+
                         case "2":
                             if (!IsSelectPeriod()) break;
                             PrintPersonalReport(homeController.GetReportForAnyPerson(homeController.CurrentPerson.FirstName, startDate, endDate));
                             break;
-                        #endregion
-                        #region case "3"
+
                         case "3":
                             if (IsExit()) return false;
                             break;
-                        #endregion
-                        #region default:
+
                         default:
                             PrintInputNumError();
                             break;
-                            #endregion
+
                     }
                     break;
-                    #endregion
             }
             return true;
         }

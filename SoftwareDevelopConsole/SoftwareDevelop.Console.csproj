@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Kupri4.SoftwareDevelop.Console</AssemblyName>
+    <RootNamespace>Kupri4.SoftwareDevelop.Console</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Persistence\SoftwareDevelop.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

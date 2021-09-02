@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Kupri4.SoftwareDevelop.DataAccess.Csv</AssemblyName>
+  </PropertyGroup>
+
+</Project>

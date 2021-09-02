@@ -3,18 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{23EC5C8E-F292-4886-91E5-1F4659FFB4B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareDevelop.Domain", "Domain\SoftwareDevelop.Domain.csproj", "{23EC5C8E-F292-4886-91E5-1F4659FFB4B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareDevelop.Persistence", "Persistence\SoftwareDevelop.Persistence.csproj", "{757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareDevelopConsole", "SoftwareDevelopConsole\SoftwareDevelopConsole.csproj", "{6E0C4CC8-B6BA-436F-A37B-151A45955CC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareDevelop.Console", "SoftwareDevelopConsole\SoftwareDevelop.Console.csproj", "{6E0C4CC8-B6BA-436F-A37B-151A45955CC5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23EC5C8E-F292-4886-91E5-1F4659FFB4B0} = {23EC5C8E-F292-4886-91E5-1F4659FFB4B0}
 		{757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0} = {757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0}
 		{6203FAAD-E03B-4B98-A3DD-9EE140967E80} = {6203FAAD-E03B-4B98-A3DD-9EE140967E80}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareDevelopTests", "SoftwareDevelopTests\SoftwareDevelopTests.csproj", "{6203FAAD-E03B-4B98-A3DD-9EE140967E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareDevelop.Tests", "SoftwareDevelopTests\SoftwareDevelop.Tests.csproj", "{6203FAAD-E03B-4B98-A3DD-9EE140967E80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
