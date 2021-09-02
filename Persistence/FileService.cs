@@ -33,10 +33,10 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// <param name="personName">Имя сотрудника</param>
         public void SaveTimeRecordToFile(string personName)
         {
-            Person p = HomeController.People.First(p => p.FirstName == personName);
-            TimeRecord tr = p.TimeRecords.Last();
+            Person person = HomeController.People.First(p => p.FirstName == personName);
+            TimeRecord timeRecord = person.TimeRecords.Last();
             string filePath = null;
-            switch (p)
+            switch (person)
             {
                 case Manager:
                     filePath = Settings.Manager.TimeRecordsFilePath;
@@ -49,7 +49,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
                     break;
             }
             using StreamWriter writer = File.AppendText(filePath);
-            writer.WriteLine($"{tr.Date.ToShortDateString()},{p.FirstName},{tr.Hours},{tr.Mesasge}");
+            writer.WriteLine($"{timeRecord.Date.ToShortDateString()},{person.FirstName},{timeRecord.Hours},{timeRecord.Mesasge}");
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace Kupri4.SoftwareDevelop.Persistence
                 string[] TimeRecordsData = File.ReadAllLines(filePath);
                 foreach (string line in TimeRecordsData)
                 {
-                    string[] items = line.Split(',').Select(s => s.Trim()).ToArray();
+                    string[] LineData = line.Split(',').Select(s => s.Trim()).ToArray();
 
-                    if (items[1] == person.FirstName)
-                        person.TimeRecords.Add(new TimeRecord(DateTime.Parse(items[0]), byte.Parse(items[2]), items[3]));
+                    if (LineData[1] == person.FirstName)
+                        person.TimeRecords.Add(new TimeRecord(DateTime.Parse(LineData[0]), byte.Parse(LineData[2]), LineData[3]));
                 }
             }
 
@@ -76,22 +76,22 @@ namespace Kupri4.SoftwareDevelop.Persistence
 
             foreach (string line in peopleData)
             {
-                string[] items = line.Split(',').Select(s => s.Trim()).ToArray();
+                string[] lineData = line.Split(',').Select(s => s.Trim()).ToArray();
 
-                switch (items.Last())
+                switch (lineData.Last())
                 {
                     case Settings.Manager.Status:
-                        HomeController.People.Add(new Manager(items[0], items[1]));
+                        HomeController.People.Add(new Manager(lineData[0], lineData[1]));
                         LoadTimeRecords(Settings.Manager.TimeRecordsFilePath);
                         break;
 
                     case Settings.Employee.Status:
-                        HomeController.People.Add(new Employee(items[0], items[1]));
+                        HomeController.People.Add(new Employee(lineData[0], lineData[1]));
                         LoadTimeRecords(Settings.Employee.TimeRecordsFilePath);
                         break;
 
                     case Settings.Freelancer.Status:
-                        HomeController.People.Add(new Freelancer(items[0], items[1]));
+                        HomeController.People.Add(new Freelancer(lineData[0], lineData[1]));
                         LoadTimeRecords(Settings.Freelancer.TimeRecordsFilePath);
                         break;
                 }
@@ -101,11 +101,11 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// <summary>
         /// Сохранение данных о сотруднике в файл
         /// </summary>
-        /// <param name="p"></param>
-        public void SavePersonToFile(Person p)
+        /// <param name="person"></param>
+        public void SavePersonToFile(Person person)
         {
             using StreamWriter writer = File.AppendText(Settings.PeopleListPath);
-            writer.WriteLine($"{p.FirstName},{p.LastName},{p.Status}");
+            writer.WriteLine($"{person.FirstName},{person.LastName},{person.Status}");
         }
     }
 }

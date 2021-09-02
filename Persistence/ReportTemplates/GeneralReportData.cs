@@ -8,7 +8,6 @@ namespace Kupri4.SoftwareDevelop.Persistence.ReportTemplates
 {
     public struct GeneralReportData
     {
-        #region public GeneralReportData(string name, int hours, decimal pay)
         /// <summary>
         /// Конструктор класса
         /// </summary>
@@ -21,15 +20,17 @@ namespace Kupri4.SoftwareDevelop.Persistence.ReportTemplates
             Hours = hours;
             Pay = pay;
         }
-        #endregion
+
         /// <summary>
         /// Имя сотрудника
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Кол-во отработанных часов
         /// </summary>
         public int Hours { get; set; }
+
         /// <summary>
         /// Кол-во заработанных денег
         /// </summary>

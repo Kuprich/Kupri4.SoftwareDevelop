@@ -1,9 +1,6 @@
 ﻿using Kupri4.SoftwareDevelop.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kupri4.SoftwareDevelop.Persistence.ReportTemplates
 {
