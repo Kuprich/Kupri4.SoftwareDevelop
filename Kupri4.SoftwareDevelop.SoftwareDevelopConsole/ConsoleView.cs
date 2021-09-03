@@ -1,14 +1,15 @@
-﻿
-using Kupri4.SoftwareDevelop.Domain.Persons;
+﻿using Kupri4.SoftwareDevelop.Domain.Persons;
+using Kupri4.SoftwareDevelop.Domain.ReportTemplates;
 using Kupri4.SoftwareDevelop.Persistence;
-using Kupri4.SoftwareDevelop.Persistence.ReportTemplates;
 using System;
-
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 {
-    class Program
+    class ConsoleView
     {
         int num;
         string firstName;
@@ -22,17 +23,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         decimal totalPay;
         HomeController homeController = new();
 
-        static void Main()
-        {
-            Program app = new();
-            app.StartApp();
-        }
-
-
-        /// <summary>
-        /// старт программы
-        /// </summary>
-        private void StartApp()
+         public ConsoleView()
         {
             if (!Greatings())
                 return;
@@ -132,18 +123,7 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
 
                         case "3":
                             if (!IsSelectPeriod()) break;
-                            GeneralReportData[] grData = homeController.GetReportForAllPersons(startDate, endDate);
-                            Console.WriteLine($"Отчет за период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}");
-                            totalHours = 0;
-                            totalPay = 0;
-                            foreach (GeneralReportData item in grData)
-                            {
-                                Console.WriteLine($"{item.Name} отработал {item.Hours} часов и заработал {item.Pay,-2} рублей");
-                                totalHours += item.Hours;
-                                totalPay += item.Pay;
-                            }
-                            Console.WriteLine($"Всего часов отработано за период: {totalHours}, Сумма к выплате: {totalPay}");
-                            Console.WriteLine();
+                            PrintGeneralReportData();
                             break;
 
                         case "4":
@@ -286,7 +266,6 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             return true;
         }
 
-
         /// <summary>
         /// Выход из программы
         /// </summary>
@@ -347,13 +326,31 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
         /// <summary>
         /// Вывод отчета по сотруднику
         /// </summary>
-        /// <param name="prData">Данные для отчета</param>
-        void PrintPersonalReport(PersonalReportData prData)
+        /// <param name="reportData">Данные для отчета</param>
+        void PrintPersonalReport(PersonalReportData reportData)
         {
-            Console.WriteLine($"Отчет по сотруднику {prData.Name} \nза период с {startDate.ToShortDateString()} по {endDate.ToShortDateString()}:");
-            foreach (var item in prData.TimeRecords)
+            Console.WriteLine($"Отчет по сотруднику {reportData.Name} \nза период с {reportData.StartDate.ToShortDateString()} по {reportData.EndDate.ToShortDateString()}:");
+            foreach (var item in reportData.TimeRecords)
                 Console.WriteLine($"{item.Date.ToShortDateString()}, {item.Hours} часов, {item.Mesasge}");
-            Console.WriteLine($"Итого: {prData.TotalHours} часов, заработано: {prData.TotalPay} рублей");
+            Console.WriteLine($"Итого: {reportData.TotalHours} часов, заработано: {reportData.TotalPay} рублей");
+        }
+
+        /// <summary>
+        /// Вывод общего отчета по всем сотрудникам
+        /// </summary>
+        /// <param name="generalReportData"> Перечень сотрудников</param>
+        void PrintGeneralReportData()
+        {
+            GeneralReportData reportData = homeController.GetReportForAllPersons(startDate, endDate);
+            Console.WriteLine($"Отчет за период с {reportData.StartDate.ToShortDateString()} по {reportData.EndDate.ToShortDateString()}");
+
+            foreach (ReportDataItem dataItem in reportData.ReportDataItems)
+            {
+                Console.WriteLine($"{dataItem.Name} отработал {dataItem.Hours} часов и заработал {dataItem.Pay,-2} рублей");
+            }
+
+            Console.WriteLine($"Всего часов отработано за период: {reportData.TotalHours}, Сумма к выплате: {reportData.TotalPay}");
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -366,6 +363,5 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
             Console.WriteLine("Ошибка ввода!");
             Console.ForegroundColor = tmpColor;
         }
-
     }
 }

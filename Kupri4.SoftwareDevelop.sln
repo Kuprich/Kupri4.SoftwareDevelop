@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kupri4.SoftwareDevelop.Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kupri4.SoftwareDevelop.Persistence", "Kupri4.SoftwareDevelop.Persistence\Kupri4.SoftwareDevelop.Persistence.csproj", "{757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kupri4.SoftwareDevelop.Console", "Kupri4.SoftwareDevelop.Console\Kupri4.SoftwareDevelop.Console.csproj", "{6E0C4CC8-B6BA-436F-A37B-151A45955CC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kupri4.SoftwareDevelop.SoftwareDevelopConsole", "Kupri4.SoftwareDevelop.SoftwareDevelopConsole\Kupri4.SoftwareDevelop.SoftwareDevelopConsole.csproj", "{6E0C4CC8-B6BA-436F-A37B-151A45955CC5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23EC5C8E-F292-4886-91E5-1F4659FFB4B0} = {23EC5C8E-F292-4886-91E5-1F4659FFB4B0}
 		{757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0} = {757CFB9E-C5D7-4ADF-A4F6-6ED8AA5722E0}
@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kupri4.SoftwareDevelop.Cons
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kupri4.SoftwareDevelop.Tests", "Kupri4.SoftwareDevelop.Tests\Kupri4.SoftwareDevelop.Tests.csproj", "{6203FAAD-E03B-4B98-A3DD-9EE140967E80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kupri4.SoftwareDevelop.DataAccess.Csv", "Kupri4.SoftwareDevelop.DataAccess.Csv\Kupri4.SoftwareDevelop.DataAccess.Csv.csproj", "{227A28D2-8716-436B-87C1-6B4FA9D17BC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{6203FAAD-E03B-4B98-A3DD-9EE140967E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6203FAAD-E03B-4B98-A3DD-9EE140967E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6203FAAD-E03B-4B98-A3DD-9EE140967E80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{227A28D2-8716-436B-87C1-6B4FA9D17BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{227A28D2-8716-436B-87C1-6B4FA9D17BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{227A28D2-8716-436B-87C1-6B4FA9D17BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{227A28D2-8716-436B-87C1-6B4FA9D17BC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

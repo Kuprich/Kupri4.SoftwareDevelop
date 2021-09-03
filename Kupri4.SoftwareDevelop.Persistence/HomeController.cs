@@ -1,6 +1,6 @@
 ﻿using Kupri4.SoftwareDevelop.Domain;
 using Kupri4.SoftwareDevelop.Domain.Persons;
-using Kupri4.SoftwareDevelop.Persistence.ReportTemplates;
+using Kupri4.SoftwareDevelop.Domain.ReportTemplates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,8 @@ namespace Kupri4.SoftwareDevelop.Persistence
         internal static List<Person> People { get; set; } =  new();
 
         FileService fileService = new();
+        ReportService reportService = new();
+
         /// <summary>
         /// Текущий авторизованный пользователь
         /// </summary>
@@ -61,10 +63,11 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// <param name="startDate">Начало периода</param>
         /// <param name="endDate">Конец периода</param>
         /// <returns>Данные, необходимые для печати отчета</returns>
-        public GeneralReportData[] GetReportForAllPersons(DateTime startDate, DateTime endDate) => People
-            .Select(p => new GeneralReportData(p.FirstName, p.GetHoursOnPeriod(startDate, endDate).Sum(), p.GetPayOnPeriod(startDate, endDate)))
-            .ToArray();
-
+        public GeneralReportData GetReportForAllPersons(DateTime startDate, DateTime endDate)
+        {
+            return reportService.GetGeneralReportData(startDate, endDate);
+        }
+            
 
         /// <summary>
         /// Отчет по одному сотруднику
@@ -75,8 +78,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
         /// <returns>Данные, необходимые для печати отчета</returns>
         public PersonalReportData GetReportForAnyPerson(string personName, DateTime startDate, DateTime endDate)
         {
-            Person p = People.First(p => p.FirstName.Equals(personName));
-            return new(p.FirstName, p.TimeRecords, p.GetPayOnPeriod(startDate, endDate));
+            return reportService.GetPersonalReportData(personName, startDate, endDate);
         }
 
         /// <summary>
