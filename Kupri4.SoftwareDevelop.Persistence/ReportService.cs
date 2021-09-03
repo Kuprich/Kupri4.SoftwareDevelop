@@ -1,4 +1,5 @@
-﻿using Kupri4.SoftwareDevelop.Domain.Persons;
+﻿using Kupri4.SoftwareDevelop.DataAccess.Csv;
+using Kupri4.SoftwareDevelop.Domain.Persons;
 using Kupri4.SoftwareDevelop.Domain.ReportTemplates;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Kupri4.SoftwareDevelop.Persistence
         public GeneralReportData GetGeneralReportData(DateTime startDate, DateTime endDate)
         {
 
-            ReportDataItem[] reportDataItems = HomeController.People
+            ReportDataItem[] reportDataItems = PersonRepository.People
                 .Select(person => new ReportDataItem
                 (
                     person.FirstName,
@@ -27,12 +28,13 @@ namespace Kupri4.SoftwareDevelop.Persistence
 
         public PersonalReportData GetPersonalReportData(string personName, DateTime startDate, DateTime endDate)
         {
-            Person person = HomeController.People.First(p => p.FirstName.Equals(personName));
+            Person person = PersonRepository.People.First(p => p.FirstName.Equals(personName));
             
-            return new(person.FirstName, 
+            return new PersonalReportData(person.FirstName, 
                 person.TimeRecords, 
                 person.GetPayOnPeriod(startDate, endDate), 
                 startDate, endDate);
         }
+
     }
 }

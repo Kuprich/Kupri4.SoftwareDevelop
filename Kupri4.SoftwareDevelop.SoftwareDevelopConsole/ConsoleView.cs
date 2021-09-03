@@ -1,4 +1,5 @@
-﻿using Kupri4.SoftwareDevelop.Domain.Persons;
+﻿using Kupri4.SoftwareDevelop.Domain;
+using Kupri4.SoftwareDevelop.Domain.Persons;
 using Kupri4.SoftwareDevelop.Domain.ReportTemplates;
 using Kupri4.SoftwareDevelop.Persistence;
 using System;
@@ -251,18 +252,20 @@ namespace Kupri4.SoftwareDevelop.SoftwareDevelopConsole
                 return false;
             }
 
+            string status = "";
             switch (num)
             {
                 case 1:
-                    homeController.AddManager(firstName, lastName);
+                    status = Settings.Manager.Status;
                     break;
                 case 2:
-                    homeController.AddEmployee(firstName, lastName);
+                    status = Settings.Employee.Status;
                     break;
                 case 3:
-                    homeController.AddFreelancer(firstName, lastName);
+                    status = Settings.Freelancer.Status;
                     break;
             }
+            homeController.AddPerson(firstName, lastName, status);
             return true;
         }
 

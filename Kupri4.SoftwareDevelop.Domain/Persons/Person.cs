@@ -9,7 +9,7 @@ namespace Kupri4.SoftwareDevelop.Domain.Persons
         /// <summary>
         /// Лист временных записей по текущему сотрдунику
         /// </summary>
-        public List<TimeRecord> TimeRecords { get; } = new();
+        public List<TimeRecord> TimeRecords { get; } = new List<TimeRecord>();
         /// <summary>
         /// Имя сотрудника
         /// </summary>
